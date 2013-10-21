@@ -23,7 +23,11 @@ set backspace=indent,eol,start
 " Colors
 set t_Co=256
 let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
-colorscheme obsidian
+
+colorscheme distinguished
+if has("gui")
+    au GUIEnter * colorscheme obsidian
+endif
 syntax on
 
 " Powerline
@@ -33,7 +37,7 @@ set laststatus=2
 " set colorcolumn=80
 
 " Tabs
-set tabstop=4
+set tabstop=8
 set shiftwidth=4
 set softtabstop=4
 set smarttab
