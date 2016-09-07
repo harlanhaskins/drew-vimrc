@@ -4,18 +4,16 @@ set shell=/bin/bash
 " Not compatible with Vi
 set nocompatible
 
-" Vundle
-source ~/.vimrc_vundle
-
-" Bundles
-source ~/.vimrc_bundles
-
 " User files (optional)
 silent! source ~/.vimrc_user
 
 " Enable mouse
 set mouse=a
-set ttymouse=xterm2
+
+if !has('nvim')
+    set ttymouse=xterm2
+endif
+
 set foldmethod=syntax
 set foldlevelstart=99
 set scrolloff=2
@@ -38,19 +36,48 @@ set rnu
 " Fix backspace
 set backspace=indent,eol,start
 
+call plug#begin('~/.vim/plugged')
+
+" Plug
+Plug 'benekastah/neomake'
+Plug 'flazz/vim-colorschemes'
+Plug 'chriskempson/base16-vim'
+Plug 'godlygeek/csapprox'
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'rmanalan/jshint.vim', { 'for': 'javascript' }
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'kien/ctrlp.vim'
+Plug 'Yggdroot/indentLine'
+Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
+Plug 'groenewege/vim-less'
+Plug 'bling/vim-airline'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'thomascoe/snipmate.vim'
+Plug 'keith/swift.vim'
+Plug 'pbrisbin/vim-syntax-shakespeare'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'tpope/vim-afterimage'
+Plug 'yan12125/llvm-syntax.vim'
+call plug#end()
+
 " Colors
 set t_Co=256
 let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
-colorscheme Tomorrow-Night
+set background=dark
+colorscheme base16-tomorrow-night
 syntax on
 
 " Ruler
 set colorcolumn=80
 
 " Tabs
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set smarttab
 set expandtab
 let g:indentLine_char = '|'
@@ -90,10 +117,12 @@ set hidden
 
 " File type aliases
 au BufNewFile,BufRead *.ejs set filetype=jst
+au BufNewFile,BufRead *.ll set filetype=llvm
 au BufNewFile,BufRead *.less set filetype=less
-au BufNewFile,BufRead *.swift set filetype=swift
-au BufNewFile,BufRead *.imp,*.ic set filetype=scheme
+au BufNewFile,BufRead *.swift.gyb,*.swift,*.tr set filetype=swift
+au BufNewFile,BufRead *.ltr,*.imp,*.ic set filetype=scheme
 au BufNewFile,BufRead *.hasm set filetype=asm
+au BufNewFile,BufRead lit.*cfg* set filetype=python
 
 " Searching
 set hlsearch
@@ -103,3 +132,5 @@ set smartcase
 " NERDTree
 map <C-e> :NERDTreeToggle<CR>
 let NERDTreeShowBookmarks=1
+
+autocmd! BufWritePost * Neomake
